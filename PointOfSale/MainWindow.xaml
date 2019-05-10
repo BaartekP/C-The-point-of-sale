@@ -5,8 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointOfSale"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="600" Width="400">
+    <StackPanel Margin="10">
+
+        <TextBlock Text="Znajdź" FontSize="16" Margin=" 0 0 0 10"></TextBlock>
+        <Grid Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBox Background="#eee"  Height="25"></TextBox>
+            </StackPanel>
+
+         
+                <StackPanel Grid.Column="1">
+                    <Button Height="25" Content="Szukaj" HorizontalAlignment="Right" Width="120"></Button>
+                </StackPanel>
+            
+        </Grid>
+
+        <StackPanel Margin="0 10">
+            <DataGrid Height="150" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="200" Header="Products">
+                        
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="100" Header="Quantity">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="100" Header="Price">
+
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>            
+        </StackPanel>
+
+        <StackPanel Margin="0">
+            <DataGrid Height="260" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="200" Header="Products List">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="100" Header="Quantity">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="100" Header="Price">
+
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <StackPanel Margin="0 20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>                    
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <Button Height="25" Content="Edit" HorizontalAlignment="Center" Width="80"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Button Height="25" Content="Save" HorizontalAlignment="Center" Width="80"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <Button Height="25" Content="Print" HorizontalAlignment="Center" Width="80"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <Button Height="25" Content="Exit" HorizontalAlignment="Center" Width="80"></Button>
+                </StackPanel>
+
+
+
+
+            </Grid>
+            
+            
+        </StackPanel>
+
+
+
+
+    </StackPanel>
 </Window>

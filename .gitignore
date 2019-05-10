@@ -1,0 +1,8 @@
+#PointofSale/bin
+PointOfSale/bin/
+
+#PointOfSale/obj
+PointOfSale/obj/
+
+#.vs
+.vs/
