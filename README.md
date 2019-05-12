@@ -8,10 +8,10 @@ My first WPF application.
 
 -Adding to the list of products,
 
--Removing product from the list,
+-Removing products from the list,
 
 -Saving products list to the txt file,
 
 -Viewing all available products in new window,
 
--Setting the amount of product.
+-Setting the amount of products.
