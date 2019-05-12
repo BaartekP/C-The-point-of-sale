@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointOfSale"
         mc:Ignorable="d"
-        Title="Point Of Sale" Height="675" Width="400"> <!--Height was 600 -->
+        Title="Point Of Sale" Height="675" Width="400">
     <StackPanel Margin="10">
 
         <!-- Searching -->
+        
         <TextBlock Text="Find products" FontSize="16" Margin=" 0 0 0 10"></TextBlock>
         <Grid Height="25">
             <Grid.ColumnDefinitions>
@@ -30,15 +31,15 @@
         <StackPanel Margin="0 10">         
             <DataGrid x:Name="SearchResoultGrid" Height="150" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="col1" IsReadOnly="True"  MinWidth="200" Header="Product" 
+                    <DataGridTextColumn IsReadOnly="True"  MinWidth="200" Header="Product" 
                                         Binding="{Binding Path=s_name}">
                         
                     </DataGridTextColumn>
-                    <DataGridTextColumn x:Name="col2" IsReadOnly="True" MinWidth="100" Header="Quantity"
+                    <DataGridTextColumn IsReadOnly="True" MinWidth="100" Header="Quantity"
                                         Binding="{Binding Path=s_quantity}">
 
                     </DataGridTextColumn>
-                    <DataGridTextColumn x:Name="col3" IsReadOnly="True" MinWidth="100" Header="Price"
+                    <DataGridTextColumn IsReadOnly="True" MinWidth="100" Header="Price"
                                         Binding="{Binding Path=s_price}">
 
                     </DataGridTextColumn>
@@ -111,7 +112,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
-                                       
+
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
@@ -123,31 +124,9 @@
                 <StackPanel Grid.Column="2">
                     <Button x:Name="AllProducts" Height="25" Content="Show all Products" HorizontalAlignment="Right" Width="180" Click="AllProducts_Click"></Button>
                 </StackPanel>
-                
+
             </Grid>
         </StackPanel>
-
-        <!-- Practise part -->
-        <!--<Slider x:Name="sliderFontSize" Margin="3"
-                Minimum="1" Maximum="40" Value="10"
-                TickFrequency="1" TickPlacement="TopLeft">
-        </Slider>
-
-        <TextBlock Margin="10" Text="Simple Text" Name="lblSampleText"
- FontSize="{Binding ElementName=sliderFontSize, Path=Value}" >
-        </TextBlock>
-
-        <DataGrid x:Name="test" AutoGenerateColumns="True"></DataGrid>
-
-        <DataGrid AutoGenerateColumns="False" Name="DataGridTest" CanUserAddRows="True" ItemsSource="{Binding TestBinding}" Margin="0,50,0,0" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Line" IsReadOnly="True" Binding="{Binding Path=Test1}" Width="50"></DataGridTextColumn>
-                <DataGridTextColumn Header="Account" IsReadOnly="True"  Binding="{Binding Path=Test2}" Width="130"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Add new row" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>-->
-
-
 
     </StackPanel>
 </Window>

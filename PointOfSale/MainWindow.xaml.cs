@@ -27,24 +27,20 @@ namespace PointOfSale
             InitializeComponent();
         }
 
-        List<Product> spList = new List<Product>();
         private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SearchBox.Text != null)
-            {
+        {           
                 String x = SearchBox.Text;
-                x = x.First().ToString().ToUpper() + x.Substring(1);
+                if(x != "") x = x.First().ToString().ToUpper() + x.Substring(1);
                 String line;
                 int counter = 0;
                 QuantityBox.Text = "1";
 
-                if (x != null)
-                {
+                
                     try
-                    {   // Open the text file using a stream reader.
+                    {   
                         StreamReader sr = new StreamReader("products.txt");
                         if (SearchResoultGrid.Items.Count != 0) SearchResoultGrid.Items.Clear();
-                        // Read the stream to a string, and write the string to the console.
+                     
                         while ((line = sr.ReadLine()) != null)
                         {
                             line = line.Replace('.', ',');
@@ -55,7 +51,7 @@ namespace PointOfSale
                             p.set_barcode(parts2[0]);
                             p.set_name(parts2[1]);
                             p.set_price(Convert.ToDouble(parts2[2]));
-                            if (p.get_barcode().Contains(x) || p.get_name().Contains(x))
+                            if (p.get_barcode().Contains(x) || p.get_name().Contains(x) || x == null)
                             {
                                 var data = new Prod1 { s_name = p.get_name(), s_price = p.get_price(), s_quantity = 1 };
                                 SearchResoultGrid.Items.Add(data);
@@ -68,58 +64,55 @@ namespace PointOfSale
                         Console.WriteLine("The file could not be read:");
                         Console.WriteLine(a.Message);
                     }
-                }
-            }
-            else
-                MessageBox.Show("SearchBox is empty!!!");
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            var data = new Test { Test1 = "Test1", Test2 = "Test2" };
-
-            // DataGridTest.Items.Add(data);
+                
+            
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            var pers1 = SearchResoultGrid.SelectedItem as Prod1;
-            var lastItem = SearchResoultGrid.Items.Count;
+            var selectedItem = SearchResoultGrid.SelectedItem as Prod1;
+            var itemsCount = SearchResoultGrid.Items.Count;
            
-            if (pers1 != null)
+            if(itemsCount != 0)
             {
+                var last = SearchResoultGrid.Items.GetItemAt(itemsCount - 1) as Prod1;
+                Double y;
+                Prod1 data;
+
                 Double x = Convert.ToDouble(QuantityBox.Text);
-                Double y = pers1.s_price * x;
-                var data = new Prod1 { s_name = pers1.s_name, s_quantity = x, s_price = y };
+                if(selectedItem!= null)
+                {
+                    y = Math.Round(selectedItem.s_price * x,2);
+                    data = new Prod1 { s_name = selectedItem.s_name, s_quantity = x, s_price = y };
+                }
+                else
+                {
+                    y = Math.Round(last.s_price * x,2);
+                    data = new Prod1 { s_name = last.s_name, s_quantity = x, s_price = y };
+                }               
                 ProductsGrid.Items.Add(data);
                 summ.Text = (Convert.ToDouble(summ.Text) + y).ToString();
-                //   QuantityBox.Text = pers1.s_quantity.ToString();
-            }
-            else if(lastItem != 0)
-            {
-                var last = SearchResoultGrid.Items.GetItemAt(lastItem - 1) as Prod1;
-                Double x = Convert.ToDouble(QuantityBox.Text);
-                Double y = last.s_price * x;
-                var data = new Prod1 { s_name = last.s_name, s_quantity = x, s_price = y };
-                ProductsGrid.Items.Add(data);
-                summ.Text = (Convert.ToDouble(summ.Text) + y).ToString();
-            }
-                
+            }                
             else
                 MessageBox.Show("Select the product from SearchGrid");
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = ProductsGrid.SelectedItem;
-            var lastItem = ProductsGrid.Items.Count;
+            var selectedItem = ProductsGrid.SelectedItem as Prod1;
+            var itemsCount = ProductsGrid.Items.Count;
+            var lastItem = ProductsGrid.Items.GetItemAt(itemsCount-1) as Prod1;
 
             if (selectedItem != null)
             {
                 ProductsGrid.Items.Remove(selectedItem);
+                summ.Text = (Convert.ToDouble(summ.Text) - selectedItem.s_price).ToString();
             }
-            else if (lastItem != 0)
-                ProductsGrid.Items.RemoveAt(lastItem-1);
+            else if (itemsCount != 0)
+            {
+                ProductsGrid.Items.RemoveAt(itemsCount - 1);
+                summ.Text = (Convert.ToDouble(summ.Text) - lastItem.s_price).ToString();
+            }
             else
                 MessageBox.Show("ProductList is empty!!!");
 
@@ -135,23 +128,28 @@ namespace PointOfSale
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             string file_name = "ProductsList.txt";
-            StringBuilder strBuilder = new StringBuilder();
-            strBuilder.Append("Name\tQuantity\tPrice\n");
+            // StringBuilder strBuilder = new StringBuilder();
+            //strBuilder.Append("Name\tQuantity\tPrice\n");
 
-            for (int i = 0; i < ProductsGrid.Items.Count; i++)
+            using (StreamWriter file = new StreamWriter(file_name, true))
             {
-                Prod1 prsn = (Prod1)ProductsGrid.Items[i];
-                strBuilder.Append(prsn.s_name+"\t"+prsn.s_quantity+"\t"+prsn.s_price+"\n");
+                DateTime date = DateTime.Now;
+
+                file.WriteLine($"{date.Day}.{date.Month}.{date.Year}");
+                file.WriteLine("Name;Quantity;Price");
+
+                for (int i = 0; i < ProductsGrid.Items.Count; i++)
+                {
+                    Prod1 product = (Prod1)ProductsGrid.Items[i];
+                    file.WriteLine(product.s_name + ";" + product.s_quantity + ";" + product.s_price);
+                    //strBuilder.Append(product.s_name + "\t" + product.s_quantity + "\t" + product.s_price);
+                }
+                file.WriteLine($"Summ;{summ.Text}");
+                file.WriteLine("");
+                // File.WriteAllText(file_name, strBuilder.ToString());
             }
-            File.WriteAllText(file_name, strBuilder.ToString());
         }
-    }
 
-
-    public class Test
-    {
-        public string Test1 { get; set; }
-        public string Test2 { get; set; }
     }
 
     public class Prod1
